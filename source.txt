@@ -115,7 +115,7 @@ distinct_oxide:={"none","strong basic","amphoter","light acid","strong acid","-"
 distinct_lookalike:={"colorless gas","silvery white/gray","white-gray metallic","black","black (G), colorless (D), yelllow-brown (L)","very pale yellow gas","silvery white","silvery","darkgray, bluish color","white-beige (W), darkred (R), black (S)","yellow","yellow-green","silvery metallic","metallic gray bluish shimmery","silvery metallic (iron white)","metallic shimmery with a gray color","metallic with a bluish-gray color","shimmery, metallic, silvery","salmonpink metallic","bluish pale gray","grayish white","metallic gray, yellow or black","gray, shimmery","gas: red-brown, liquid: red-brown, solid: metallic shimmery","colorless","silvery white metallic","gray metallic shimmery","gray metallic","silvery gray metallic","whiteshimmery, metallic","silvery shimmery gray","silverwhite, metallic shimmery","gas: dark-violet, solid: gray, shimmery","silverwhite shimmery, with low acid golden yellow","silvery white, yellowish color","metallic","silvery gray","metallicgray","gray","grayish white, shimmery","bluish gray","gray-white","metallic yellow","bluish white","shimmery redish white","unknown","silvery-white-metallic","bright, silvery, metallic shimmery","silvery metal","silvery-white metal","silverwhite","silveryes metal"};
 
 // Colors
-distinct_colors:={#00EE00,#66AAFF,#FFAA00,#F3F300,#FFC1DC,#00DDBB,#FF93C2,#99BBAA,#B2AAFF,#B2F0FF, #EFEFEF};
+distinct_colors:={#00EE00,#66AAFF,#FFAA00,#F3F300,#FFC1DC,#00DDBB,#FF93C2,#99BBAA,#B2AAFF,#B2F0FF,#EFEFEF};
 
 // Element Position
 position:= [
@@ -137,22 +137,22 @@ position:= [
 // ********************************************************************************
 // ********************************************************************************
 
-Credit:= {"Only to be on par with the HP48SX (as extension card)",
-          "that was later integrated on the HP48GX",
-          "while using the power and screen tech of the Prime",
-          "based on & inspirated by:",
-          " ҉ Elements ҉ HP Prime by Mickaël Nicotera",
-          "",
-          "Revised by Miguel Toro",
-          "Dark Mode, optimisation, correction, and data revision",
-          "by Pelayo 'Dory' Méndez",
-          "",
-          "Message Loop adapted from WaitLab jfs 2014-06-04",
-          "",
-          "Thanks to HP for their outstanding calculator hardware",
-          "...and Joseph K. Horn",
-          "",
-          "Data from en.wikipedia.org, updated as of April 2025"};
+Credit:={"Only to be on par with the HP48SX (as extension card)",
+         "that was later integrated on the HP48GX",
+         "while using the power and screen tech of the Prime",
+         "based on & inspirated by:",
+         " ҉ Elements ҉ HP Prime by Mickaël Nicotera",
+         "",
+         "Revised by Miguel Toro",
+         "Dark Mode, optimisation, correction, and data revision",
+         "by 'Dory' Méndez",
+         "",
+         "Message Loop adapted from WaitLab jfs 2014-06-04",
+         "",
+         "Thanks to HP for their outstanding calculator hardware",
+         "...and Joseph K. Horn",
+         "",
+         "Data from en.wikipedia.org, updated as of April 2025"};
 //
 // function declarations
 //
@@ -161,13 +161,8 @@ Event_InitApp(Gr);
 Event_Redraw(Gr);
 Event_KeyPress(Gr,KeyCode);
 Event_MenuClick(Gr,Index);
-Event_MouseDown(Gr,x,y);
-Event_MouseUp(Gr,x,y,typ);
 Event_MouseClick(Gr,x,y);
-Event_MouseLongClick(Gr,x,y);
-Event_DragStart(Gr,x,y);
 Event_DragMove(Gr,x,y);
-Event_DragEnd(Gr,x,y);
 //
 build_table(Gr);
 select_element(Gr,posx,posy);
@@ -290,55 +285,29 @@ begin
   end;
 end;
 //
-//
-//
-Event_MouseDown(Gr,x,y) begin // stub to satisfy compiler
-end;
-//
-//
-//
-Event_MouseUp(Gr,x,y) begin // stub to satisfy compiler
-end;
-//
-// put here code you want to execute
-// if a mouse click (touch) on the screen was detected...
-//
-Event_MouseLongClick(Gr,x,y) begin // stub to satisfy compiler
-end;
-//
 // put here code you want to execute
 // if a mouse click (touch) on the screen was detected...
 //
 Event_MouseClick(Gr,x,y) begin
   case
-    if (Gr==main_window) then select_element(Gr,x,y,0); end;
-    if (Gr==property_window) then show_element(property_window,selected,y); end;
-    if (Gr==list_window) then
-      if (y<13) then
-        if (0<x<=30) then LCurrSortOrder:=0;
-        else if (71<x<=180) then LCurrSortOrder:=1; end; end;
+    if Gr==main_window then select_element(Gr,x,y,0); end;
+    if Gr==property_window then show_element(property_window,selected,y); end;
+    if Gr==list_window then
+      if y<13 then
+        if 0<x<=30 then LCurrSortOrder:=0;
+        else if 71<x<=180 then LCurrSortOrder:=1; end; end;
         show_list(Gr,LCurrSortOrder,x,y);
       else show_list(Gr,LCurrSortOrder,x,y); end;
     end;
 
-    if (Gr==about_window) then // DEBUG:
+    if Gr==about_window then // DEBUG:
     end;
 
-    if (Gr==plot_window) then
+    if Gr==plot_window then
       selected:=selected_plot(x,y);
       show_plot(Gr,selected_prop,selected,connect_dots);
     end;
   end;
-end;
-//
-//
-//
-Event_DragStart(Gr,x,y) begin // stub to satisfy compiler
-end;
-//
-//
-//
-Event_DragEnd(Gr,x,y) begin // stub to satisfy compiler
 end;
 //
 // Drag Move
@@ -363,7 +332,7 @@ Event_DragMove(Gr,x1,y1,x0,y0) begin
         end;
       end;
     end;
-    if (Gr==property_window) then
+    if Gr==property_windowo then
       PropOffset:=ip((y0-y1)/PropSmooth);
       if abs(PropOffset)>0 then
         if (PropWndEnd+PropOffset)>VSIZE then
@@ -383,17 +352,17 @@ Event_DragMove(Gr,x1,y1,x0,y0) begin
         end;
       else
         local mov:=x1-x0;
-        if (abs(mov)>0) then
+        if mov≠0 then
           // move fast through elements
           selected:=selected+ip(mov/2);
           // boundaries
-          if (selected<1) then selected:=MAX_ELEMENTS;
-          else if (selected>MAX_ELEMENTS) then selected:=1; end; end;
+          if selected<1 then selected:=MAX_ELEMENTS;
+          else if selected>MAX_ELEMENTS then selected:=1; end; end;
           show_element(property_window,selected,0);
         end;
       end;
     end;
-    if (Gr==list_window) then
+    if Gr==list_window then
       ListOffset:=ip((y0-y1)/ListSmooth);
       if (ListWndEnd+ListOffset)>LSIZE then
         ListWndBeg:=LSIZE-320;
@@ -411,9 +380,9 @@ Event_DragMove(Gr,x1,y1,x0,y0) begin
         end;
       end;
     end;
-    if (Gr==about_window) then // DEBUG:
+    if Gr==about_window then // DEBUG:
     end;
-    if (Gr==plot_window) then // DEBUG:
+    if Gr==plot_window then // DEBUG:
     end;
   end;
 end;
@@ -422,40 +391,39 @@ end;
 //
 Event_MenuClick(Gr,Index) begin
   case
-    if (Gr==main_window) then
+    if Gr==main_window then
       case
-        if (Index==1) then // <List>
+        if Index==1 then // <List>
             show_list(list_window,0,0,0);
             DoLoop(list_window);
         end;
-        if (Index==2) then // <Plot>
+        if Index==2 then // <Plot>
             // prop_plot: select property
             selected_prop:=prop_plot;
             show_plot(plot_window,selected_prop,selected,connect_dots);
             DoLoop(plot_window);
         end;
-        if (Index==3) then  // <>
+        if Index==3 then  // <>
         end;
-        if (Index==4) then // <Help>
+        if Index==4 then // <Help>
         end;
-        if (Index==5) then // <About>
+        if Index==5 then // <About>
             show_about(about_window);
             DoLoop(about_window);
         end;
-        if (Index==6) then //<Quit>
+        if Index==6 then //<Quit>
           // trigger DoLoop to exit condition;
           Event_KeyPress(Gr,K_ESC);
         end; // if
       end; // case
     end;
-    if (Gr==plot_window) then
+    if Gr==plot_window then
       // if we are above the checkmark or the text we toggle the checkmark
       // cheat as if it were menu 5 or menu 6
-      if (3<Index<6) then // Above Checkmark?
-          if (connect_dots==0) then connect_dots:=1
-          else connect_dots:=0; end;
-          show_plot(plot_window,selected_prop,selected,connect_dots);
-        end;
+      if 3<Index<6 then // Above Checkmark?
+        connect_dots:=NOT connect_dots;
+        show_plot(plot_window,selected_prop,selected,connect_dots);
+      end;
     end; // if
   end; // case
 end;
@@ -465,22 +433,22 @@ end;
 Event_KeyPress(Gr,KeyCode) begin
   case
     // Main Window
-    if (Gr==main_window) then
+    if Gr==main_window then
       case
-        if (KeyCode==K_ENTER) then
+        if KeyCode==K_ENTER then
           show_element(property_window,selected,0);
           DoLoop(property_window);
         end;
-        if (KeyCode==K_PLOT) then Event_MenuClick(Gr,2) end;
-        if (KeyCode==K_ARROWUP) then
+        if KeyCode==K_PLOT then Event_MenuClick(Gr,2) end;
+        if KeyCode==K_ARROWUP then
           // select the visually upper element in table
           previous:=selected;
           selected:=move_up_to(previous);
           select_element(Gr,0,0,selected);
           Z:=selected;
         end;
-        if (KeyCode==K_ESC) then break; end;
-        if (KeyCode==K_ARROWLEFT) then
+        if KeyCode==K_ESC then break; end;
+        if KeyCode==K_ARROWLEFT then
           // select previous element in table
           previous:=selected;
           if previous==1 then selected:=MAX_ELEMENTS;
@@ -488,7 +456,7 @@ Event_KeyPress(Gr,KeyCode) begin
           select_element(Gr,0,0,selected);
           Z:=selected;
         end;
-        if (KeyCode==K_ARROWRIGHT) then
+        if KeyCode==K_ARROWRIGHT then
           // select the next element in table
           previous:=selected;
           if previous==MAX_ELEMENTS then selected:=1;
@@ -496,7 +464,7 @@ Event_KeyPress(Gr,KeyCode) begin
           select_element(Gr,0,0,selected);
           Z:=selected;
         end;
-        if (KeyCode==K_ARROWDOWN) then
+        if KeyCode==K_ARROWDOWN then
           // select the visually lower element in table
           previous:=selected;
           selected:=move_down_to(previous);
@@ -506,62 +474,62 @@ Event_KeyPress(Gr,KeyCode) begin
       end;
     end;
     // Property Window
-    if (Gr==property_window) then
+    if Gr==property_window then
       case
         // Go back to the table view
-        if (KeyCode==K_HOME) then
+        if KeyCode==K_HOME then
           // Go back to the table view
-         // (call us again this time with breaking the Message Loop)
+          // (call us again this time with breaking the Message Loop)
           Event_KeyPress(Gr,K_ESC)
         end;
-        if (KeyCode==K_ARROWUP) then
+        if KeyCode==K_ARROWUP then
           PropWndBeg:=0;
           PropWndEnd:=320;
           PropDOffset:=0
         end;
-        if (KeyCode==K_ARROWDOWN) then
+        if KeyCode==K_ARROWDOWN then
           PropWndBeg:=VSIZE-320;
           PropWndEnd:=VSIZE;
           PropDOffset:=VSIZE-320-2;
         end;
-        if (KeyCode==K_ARROWLEFT) then
+        if KeyCode==K_ARROWLEFT then
           // Go one atom number lower or else underflow to '118 UUo' (MAX_ELEMENTS)
           previous:=selected;
           selected:=selected-1;
-          if (selected<1) then selected:=MAX_ELEMENTS; end;
+          if selected<1 then selected:=MAX_ELEMENTS; end;
           show_element(property_window,selected,0);
         end;
-        if (KeyCode==K_ARROWRIGHT) then
+        if KeyCode==K_ARROWRIGHT then
           // Go one atom number higher or else overflow to '1 H' (1)
           previous:=selected;
           selected:=selected+1;
-          if (selected>MAX_ELEMENTS) then selected:=1; end;
+          if selected>MAX_ELEMENTS then selected:=1; end;
           show_element(property_window,selected,0);
         end;
       end;
     end;
     // List Window
-    if (Gr==list_window) then
+    if Gr==list_window then
       case
         // Go back to the table view
-        if (KeyCode==K_HOME) then
+        if KeyCode==K_HOME then
           // Go back to the table view
-         // (call us again this time with breaking the Message Loop)
+          // (call us again this time with breaking the Message Loop)
           Event_KeyPress(Gr,K_ESC)
         end;
-        if (KeyCode==K_ARROWUP) then
+        if KeyCode==K_ARROWUP then
           ListWndBeg:=0;
           ListWndEnd:=320;
           ListDOffset:=0
         end;
-        if (KeyCode==K_ARROWDOWN) then
+        if KeyCode==K_ARROWDOWN then
           ListWndBeg:=LSIZE-320;
           ListWndEnd:=LSIZE;
           ListDOffset:=LSIZE-320-2;
         end;
-        if (KeyCode==K_ENTER) then
-          if (0<selected<MAX_ELEMENTS) then
-            if (LCurrSortOrder==0) then show_element(property_window,selected,0);
+        if KeyCode==K_ENTER then
+          if 0<selected<MAX_ELEMENTS then
+            if LCurrSortOrder==0 then show_element(property_window,selected,0);
             else show_element(property_window,pos(elementname, new_order(selected)),0); end;
             DoLoop(property_window);
           end;
@@ -569,39 +537,39 @@ Event_KeyPress(Gr,KeyCode) begin
       end;
     end;
     // Credit Window
-    if (Gr==about_window) then
+    if Gr==about_window then
       case
         // Go back to the table view
-        if (KeyCode==K_HOME) then
+        if KeyCode==K_HOME then
           // Go back to the table view
-         // (call us again this time with breaking the Message Loop)
+          // (call us again this time with breaking the Message Loop)
           Event_KeyPress(Gr,K_ESC);
           break;
         end;
       end;
     end;
     // Plot window
-    if (Gr==plot_window) then
+    if Gr==plot_window then
       case
         // Go back to the table view
-        if (KeyCode==K_HOME) then
+        if KeyCode==K_HOME then
           // Go back to the table view
           // (call us again this time with breaking the Message Loop)
           Event_KeyPress(Gr,K_ESC);
           break;
         end;
-        if (KeyCode==K_ARROWLEFT) then
+        if KeyCode==K_ARROWLEFT then
           // Go one atom number lower or else underflow to '118 UUo' (MAX_ELEMENTS)
           previous:=selected;
           selected:=selected-1;
-          if (selected<1) then selected:=MAX_ELEMENTS; end;
+          if selected<1 then selected:=MAX_ELEMENTS; end;
           show_plot(Gr,selected_prop,selected,connect_dots);
         end;
-        if (KeyCode==K_ARROWRIGHT) then
+        if KeyCode==K_ARROWRIGHT then
           // Go one atom number higher or else overflow to '1 H' (1)
           previous:=selected;
           selected:=selected+1;
-          if (selected>MAX_ELEMENTS) then selected:=1; end;
+          if selected>MAX_ELEMENTS then selected:=1; end;
           show_plot(Gr,selected_prop,selected,connect_dots);
         end;
       end;
@@ -653,8 +621,8 @@ end;
 // draw a cross
 //
 check_mark(Gr,x,y,color,on_off) begin
-  RECT_P(Gr,x-4,y-2,x+4,y+6,WHITE,#000000);
-  if (on_off≠0) then line_p(Gr,x-4,y-2,x+4,y+6,color); line_p(Gr,x+4,y-2,x-4,y+6,color); end;
+  RECT_P(Gr,x-4,y-2,x+4,y+6,WHITE,BLACK);
+  if on_off≠0 then line_p(Gr,x-4,y-2,x+4,y+6,color); line_p(Gr,x+4,y-2,x-4,y+6,color); end;
 end;
 //
 // draw an arrow down
@@ -775,7 +743,7 @@ select_element(Gr,x,y,sel) begin
   local txt_off:=0;
   local dx:=0;
 
-  if ((x+y)>0) then
+  if (x+y)>0 then
     // calculate based on the mouse position the
     // granular element in the matrix
     local tempX:=(x-2+MainDOffset)/el_width;
@@ -796,16 +764,16 @@ select_element(Gr,x,y,sel) begin
           // write new title
           textout_p(elementname(TablePos),Gr,30,5,3,#FF006E);
           // right align text
-          if (selected<=4) then txt_off:=0; end;
-          if (selected>4 and selected<=43) then txt_off:=6; end;
-          if (selected>43) then txt_off:=12; end;
+          txt_off:=0;
+          if selected>4 then txt_off:=6; end;
+          if selected>43 then txt_off:=12; end;
           textout_p(round(molmasse(TablePos),0),Gr,150-txt_off,2,2,0);
           // write symbolname
           textout_p(symbolname(TablePos),Gr,160,5,3,#FF006E);
           // right align text
-          if (selected<10) then txt_off:=0; end;
-          if (selected>=10 and selected<=99) then txt_off:=6; end;
-          if (selected>99) then txt_off:=12; end;
+          txt_off:=0;
+          if selected>9 then txt_off:=6; end;
+          if selected>99 then txt_off:=12; end;
           textout_p(TablePos,Gr,150-txt_off,12,2,0);
           // invert selected element
           fillpoly_p(Gr,{x,y,x,y+el_height,x+el_width,y+el_height,x+el_width,y},BLACK,110);
@@ -837,7 +805,7 @@ show_element(Gr,sel,y) begin
   if (dim(distinct_lookalike(lookalike(sel)))>BRK) then props:=props2; end;
 
   // select & highlight correct property
-  if (y>=linH) then
+  if y>=linH then
     lin:=ip((PropWndBeg+y)/linH);
     highlight_prop:=props(lin);
   end;
@@ -856,7 +824,7 @@ show_element(Gr,sel,y) begin
   // If it is Technetium(43) or Promethium(61) or
   // between Neptunium(93) and the biggest today known element
   // then it is a syntetic element
-  if (sel==43 or sel==61 or (93≤sel and sel≤112)) then textout_p("("+langreslist(LANG_ID+8)+")",Gr,EX2+60,7,1,rgb(255,0,0)); end;
+  if sel==43 or sel==61 or (93≤sel and sel≤112) then textout_p("("+langreslist(LANG_ID+8)+")",Gr,EX2+60,7,1,#ff0000); end;
 
   // first page of properties
 
@@ -865,18 +833,18 @@ show_element(Gr,sel,y) begin
 
   // Category, Family [-], Col:17
   textout_p(headerlist(17)+":",Gr,EX1,(3)*linH,1,LIGHTBLUE);
-  if (highlight_prop==17) then fillpoly_p(Gr,{EX2-1,(lin+0)*linH-2,EX2-1,(lin+1)*linH-3,EX3,(lin+1)*linH-3,EX3,(lin+0)*linH-2},BLACK,110); end;
+  if highlight_prop==17 then fillpoly_p(Gr,{EX2-1,lin*linH-2,EX2-1,(lin+1)*linH-3,EX3,(lin+1)*linH-3,EX3,lin*linH-2},BLACK,110); end;
   textout_p(distinct_family(family(sel)),Gr,EX2,(3)*linH,1,WHITE);
 
   // Group, Period, Block [-], Col:14, Col:15, Col:16
   textout_p(headerlist(14)+", "+headerlist(15)+", "+headerlist(16)+":",Gr,EX1,(4)*linH,1,LIGHTBLUE);
-  if (highlight_prop==14) then fillpoly_p(Gr,{EX2-1,(lin+0)*linH-2,EX2-1,(lin+1)*linH-3,EX3,(lin+1)*linH-3,EX3,(lin+0)*linH-2},BLACK,110); end;
+  if highlight_prop==14 then fillpoly_p(Gr,{EX2-1,lin*linH-2,EX2-1,(lin+1)*linH-3,EX3,(lin+1)*linH-3,EX3,lin*linH-2},BLACK,110); end;
   textout_p(group(sel)+", "+period(sel)+", "+block(sel),Gr,EX2,(4)*linH,1,WHITE);
 
   // Look Alike [-], Col:32 -- optional second line of text
   textout_p(headerlist(32)+":",Gr,EX1,(5)*linH,1,LIGHTBLUE);
   txt1:=distinct_lookalike(lookalike(sel));
-  if (dim(txt1)>BRK) then
+  if dim(txt1)>BRK then
     // find the closest space from string backwards
     // starting with char(28) 'BRK'
     txt2:=left(txt1,BRK);
@@ -886,28 +854,28 @@ show_element(Gr,sel,y) begin
     n:=1;
   end;
 
-  if (highlight_prop==32) then
+  if highlight_prop==32 then
     fillpoly_p(Gr,{EX2-1,(lin+0)*linH-2,EX2-1,(lin+1)*linH-3,EX3,(lin+1)*linH-3,EX3,(lin+0)*linH-2},BLACK,110);
-    if (dim(txt2)>0) then
-      if (lin==6) then fillpoly_p(Gr,{EX2-1,(lin+0-n)*linH-2,EX2-1,(lin+1-n)*linH-3,EX3,(lin+1-n)*linH-3,EX3,(lin+0-n)*linH-2},BLACK,110);
-      else fillpoly_p(Gr,{EX2-1,(lin+0+n)*linH-2,EX2-1,(lin+1+n)*linH-3,EX3,(lin+1+n)*linH-3,EX3,(lin+0+n)*linH-2},BLACK,110); end;
+    if dim(txt2)>0 then
+      if lin==6 then fillpoly_p(Gr,{EX2-1,(lin-n)*linH-2,EX2-1,(lin+1-n)*linH-3,EX3,(lin+1-n)*linH-3,EX3,(lin-n)*linH-2},BLACK,110);
+      else fillpoly_p(Gr,{EX2-1,(lin+n)*linH-2,EX2-1,(lin+1+n)*linH-3,EX3,(lin+1+n)*linH-3,EX3,(lin+n)*linH-2},BLACK,110); end;
     end;
-  end; if (dim(txt2)>0) then textout_p(txt2,Gr,EX2,(6)*linH,1,WHITE); end;
+  end; if dim(txt2)>0 then textout_p(txt2,Gr,EX2,(6)*linH,1,WHITE); end;
   textout_p(txt1,Gr,EX2,5*linH,1,WHITE);
 
   // CAS Number [-], Col:30
   textout_p(headerlist(30)+":",Gr,EX1,(6+n)*linH,1,LIGHTBLUE);
-  if (highlight_prop==30) then fillpoly_p(Gr,{EX2-1,(lin+0)*linH-2,EX2-1,(lin+1)*linH-3,EX3,(lin+1)*linH-3,EX3,(lin+0)*linH-2},BLACK,110); end;
+  if highlight_prop==30 then fillpoly_p(Gr,{EX2-1,lin*linH-2,EX2-1,(lin+1)*linH-3,EX3,(lin+1)*linH-3,EX3,lin*linH-2},BLACK,110); end;
   textout_p(CASnumber(sel),Gr,EX2,(6+n)*linH,1,WHITE);
 
   // Mass on Earth Shell [ppm], Col:31
   textout_p(headerlist(31)+":",Gr,EX1,(7+n)*linH,1,LIGHTBLUE);
-  if (highlight_prop==31) then fillpoly_p(Gr,{EX2-1,(lin+0)*linH-2,EX2-1,(lin+1)*linH-3,EX3,(lin+1)*linH-3,EX3,(lin+0)*linH-2},BLACK,110); end;
+  if highlight_prop==31 then fillpoly_p(Gr,{EX2-1,lin*linH-2,EX2-1,(lin+1)*linH-3,EX3,(lin+1)*linH-3,EX3,lin*linH-2},BLACK,110); end;
   textout_p(string(earthmass(sel),3,2)+" "+unitlist(31),Gr,EX2,(7+n)*linH,1,WHITE);
 
   // Discovery Year [Year],Col:28
   textout_p(headerlist(28)+":",Gr,EX1,(8+n)*linH,1,LIGHTBLUE);
-  if (highlight_prop==28) then fillpoly_p(Gr,{EX2-1,(lin+0)*linH-2,EX2-1,(lin+1)*linH-3,EX3,(lin+1)*linH-3,EX3,(lin+0)*linH-2},BLACK,110); end;
+  if highlight_prop==28 then fillpoly_p(Gr,{EX2-1,lin*linH-2,EX2-1,(lin+1)*linH-3,EX3,(lin+1)*linH-3,EX3,lin*linH-2},BLACK,110); end;
   textout_p(ifte(discovery(sel)>0,discovery(sel)+" "+unitlist(28),langreslist(LANG_ID+10)),Gr,EX2,(8+n)*linH,1,WHITE);
 
   // Atomic properties
@@ -915,102 +883,102 @@ show_element(Gr,sel,y) begin
 
   // Atomic Weight [u], Col:3
   textout_p(headerlist(3)+":",Gr,EX1,(11+n)*linH,1,LIGHTBLUE);
-  if (highlight_prop==3) then fillpoly_p(Gr,{EX2-1,(lin+0)*linH-2,EX2-1,(lin+1)*linH-3,EX3,(lin+1)*linH-3,EX3,(lin+0)*linH-2},BLACK,110); end;
+  if highlight_prop==3 then fillpoly_p(Gr,{EX2-1,lin*linH-2,EX2-1,(lin+1)*linH-3,EX3,(lin+1)*linH-3,EX3,lin*linH-2},BLACK,110); end;
   if fp(atomicmass(sel))==0 then textout_p("["+atomicmass(sel)+"] "+unitlist(3),Gr,EX2,(11+n)*linH,1,WHITE);
   else textout_p(atomicmass(sel)+" "+unitlist(3),Gr,EX2,(11+n)*linH,1,WHITE); end;
 
   // Atomic Radius [pm], Col:20
   textout_p(headerlist(20)+":",Gr,EX1,(12+n)*linH,1,LIGHTBLUE);
-  if (highlight_prop==20) then fillpoly_p(Gr,{EX2-1,(lin+0)*linH-2,EX2-1,(lin+1)*linH-3,EX3,(lin+1)*linH-3,EX3,(lin+0)*linH-2},BLACK,110); end;
+  if highlight_prop==20 then fillpoly_p(Gr,{EX2-1,lin*linH-2,EX2-1,(lin+1)*linH-3,EX3,(lin+1)*linH-3,EX3,lin*linH-2},BLACK,110); end;
   textout_p(ifte(atomradius(sel)>0,atomradius(sel)+" "+unitlist(20),"-"),Gr,EX2,(12+n)*linH,1,WHITE);
 
   // Covalent radius [pm], Col:21
   textout_p(headerlist(21)+":",Gr,EX1,(13+n)*linH,1,LIGHTBLUE);
-  if (highlight_prop==21) then fillpoly_p(Gr,{EX2-1,(lin+0)*linH-2,EX2-1,(lin+1)*linH-3,EX3,(lin+1)*linH-3,EX3,(lin+0)*linH-2},BLACK,110); end;
+  if highlight_prop==21 then fillpoly_p(Gr,{EX2-1,lin*linH-2,EX2-1,(lin+1)*linH-3,EX3,(lin+1)*linH-3,EX3,lin*linH-2},BLACK,110); end;
   textout_p(ifte(covalentradii(sel)>0,covalentradii(sel)+" "+unitlist(21),"-"),Gr,EX2,(13+n)*linH,1,WHITE);
 
   // Van-der-Waals-Radius [pm], Col:22
   textout_p(headerlist(22)+":",Gr,EX1,(14+n)*linH,1,LIGHTBLUE);
-  if (highlight_prop==22) then fillpoly_p(Gr,{EX2-1,(lin+0)*linH-2,EX2-1,(lin+1)*linH-3,EX3,(lin+1)*linH-3,EX3,(lin+0)*linH-2},BLACK,110); end;
+  if highlight_prop==22 then fillpoly_p(Gr,{EX2-1,lin*linH-2,EX2-1,(lin+1)*linH-3,EX3,(lin+1)*linH-3,EX3,lin*linH-2},BLACK,110); end;
   textout_p(ifte(vanderwaals(sel)>0,vanderwaals(sel)+" "+unitlist(22),"-"),Gr,EX2,(14+n)*linH,1,WHITE);
 
   // Electron Configuration [-], Col:7
   textout_p(headerlist(7)+":",Gr,EX1,(15+n)*linH,1,LIGHTBLUE);
-  if (highlight_prop==7) then fillpoly_p(Gr,{EX2-1,(lin+0)*linH-2,EX2-1,(lin+1)*linH-3,EX3,(lin+1)*linH-3,EX3,(lin+0)*linH-2},BLACK,110); end;
+  if highlight_prop==7 then fillpoly_p(Gr,{EX2-1,lin*linH-2,EX2-1,(lin+1)*linH-3,EX3,(lin+1)*linH-3,EX3,lin*linH-2},BLACK,110); end;
   textout_p(electronconfig(sel),Gr,EX2,(15+n)*linH,1,WHITE);
 
   // First Ionisation Energy [kJ/mol], Col:25
   textout_p(headerlist(25)+":",Gr,EX1,(16+n)*linH,1,LIGHTBLUE);
-  if (highlight_prop==25) then fillpoly_p(Gr,{EX2-1,(lin+0)*linH-2,EX2-1,(lin+1)*linH-3,EX3,(lin+1)*linH-3,EX3,(lin+0)*linH-2},BLACK,110); end;
+  if highlight_prop==25 then fillpoly_p(Gr,{EX2-1,lin*linH-2,EX2-1,(lin+1)*linH-3,EX3,(lin+1)*linH-3,EX3,lin*linH-2},BLACK,110); end;
   textout_p(ifte(firstionenergy(sel)>0,firstionenergy(sel)+" "+unitlist(25),"-"),Gr,EX2,(16+n)*linH,1,WHITE);
 
   //second page of properties (does not need to react to text moves above ('look alike' prop))
   // determine list to use
   props:=props1;
   // select & highlight correct property
-  if (y>=linH) then lin:=ip((PropWndBeg+y)/linH); highlight_prop:=props(lin); end; n:=0;
+  if y>=linH then lin:=ip((PropWndBeg+y)/linH); highlight_prop:=props(lin); end; n:=0;
 
   // Name [-], Col:1
-  textout_p(symbolname(sel),Gr,EX2+30,(19)*linH-6,3,rgb(255,105,0));
+  textout_p(symbolname(sel),Gr,EX2+30,19*linH-6,3,rgb(255,105,0));
   // Atomic Number [-] Col:0 (implicit column)
-  textout_p(sel,Gr,EX2,(19)*linH-6,3,rgb(38,127,0));
+  textout_p(sel,Gr,EX2,19*linH-6,3,rgb(38,127,0));
 
   // Physical Properties
-  textout_p(langreslist(LANG_ID+12),Gr,10,(19)*linH-3,2);
+  textout_p(langreslist(LANG_ID+12),Gr,10,19*linH-3,2);
 
   // Phase  (Aggregate State at Room Temp) [-], Col:8
   textout_p(headerlist(8)+":",Gr,EX1,(20+n)*linH,1,LIGHTBLUE);
-  if (highlight_prop==8) then fillpoly_p(Gr,{EX2-1,(lin+0)*linH-2,EX2-1,(lin+1)*linH-3,EX3,(lin+1)*linH-3,EX3,(lin+0)*linH-2},BLACK,110); end;
+  if highlight_prop==8 then fillpoly_p(Gr,{EX2-1,lin*linH-2,EX2-1,(lin+1)*linH-3,EX3,(lin+1)*linH-3,EX3,lin*linH-2},BLACK,110); end;
   textout_p(distinct_aggregatstate(aggregatstate(sel)),Gr,EX2,(20+n)*linH,1,WHITE);
 
   // Crystal Structure [-], Col:18
   textout_p(headerlist(18)+":",Gr,EX1,(21+n)*linH,1,LIGHTBLUE);
-  if (highlight_prop==18) then fillpoly_p(Gr,{EX2-1,(lin+0)*linH-2,EX2-1,(lin+1)*linH-3,EX3,(lin+1)*linH-3,EX3,(lin+0)*linH-2},BLACK,110); end;
+  if highlight_prop==18 then fillpoly_p(Gr,{EX2-1,lin*linH-2,EX2-1,(lin+1)*linH-3,EX3,(lin+1)*linH-3,EX3,lin*linH-2},BLACK,110); end;
   textout_p(distinct_crystal(crystal(sel)),Gr,EX2,(21+n)*linH,1,WHITE);
 
   // Density [g/cm^3], Col:5
   textout_p(headerlist(5)+":",Gr,EX1,(22+n)*linH,1,LIGHTBLUE);
-  if (highlight_prop==5) then fillpoly_p(Gr,{EX2-1,(lin+0)*linH-2,EX2-1,(lin+1)*linH-3,EX3,(lin+1)*linH-3,EX3,(lin+0)*linH-2},BLACK,110); end;
+  if highlight_prop==5 then fillpoly_p(Gr,{EX2-1,lin*linH-2,EX2-1,(lin+1)*linH-3,EX3,(lin+1)*linH-3,EX3,lin*linH-2},BLACK,110); end;
   textout_p(ifte(density(sel)>0,density(sel)+" "+unitlist(5),"-"),Gr,EX2,(22+n)*linH,1,WHITE);
 
   // Melting Point [°C], Col:9
   textout_p(headerlist(9)+":",Gr,EX1,(23+n)*linH,1,LIGHTBLUE);
-  if (highlight_prop==9) then fillpoly_p(Gr,{EX2-1,(lin+0)*linH-2,EX2-1,(lin+1)*linH-3,EX3,(lin+1)*linH-3,EX3,(lin+0)*linH-2},BLACK,110); end;
+  if highlight_prop==9 then fillpoly_p(Gr,{EX2-1,lin*linH-2,EX2-1,(lin+1)*linH-3,EX3,(lin+1)*linH-3,EX3,lin*linH-2},BLACK,110); end;
   textout_p(ifte(meltingpoint(sel)>0,meltingpoint(sel)+" "+unitlist(9),"-"),Gr,EX2,(23+n)*linH,1,WHITE);
 
   // Boiling Point [°C], Col:10
   textout_p(headerlist(10)+":",Gr,EX1,(24+n)*linH,1,LIGHTBLUE);
-  if (highlight_prop==10) then fillpoly_p(Gr,{EX2-1,(lin+0)*linH-2,EX2-1,(lin+1)*linH-3,EX3,(lin+1)*linH-3,EX3,(lin+0)*linH-2},BLACK,110); end;
+  if highlight_prop==10 then fillpoly_p(Gr,{EX2-1,lin*linH-2,EX2-1,(lin+1)*linH-3,EX3,(lin+1)*linH-3,EX3,lin*linH-2},BLACK,110); end;
   textout_p(ifte(boilingpoint(sel)>0,boilingpoint(sel)+" "+unitlist(10),"-"),Gr,EX2,(24+n)*linH,1,WHITE);
 
   // Atomic Volume [cm^3/mol], Col:19
   textout_p(headerlist(19)+":",Gr,EX1,(25+n)*linH,1,LIGHTBLUE);
-  if (highlight_prop==19) then fillpoly_p(Gr,{EX2-1,(lin+0)*linH-2,EX2-1,(lin+1)*linH-3,EX3,(lin+1)*linH-3,EX3,(lin+0)*linH-2},BLACK,110); end;
+  if highlight_prop==19 then fillpoly_p(Gr,{EX2-1,lin*linH-2,EX2-1,(lin+1)*linH-3,EX3,(lin+1)*linH-3,EX3,lin*linH-2},BLACK,110); end;
   textout_p(ifte(atomicvolume(sel)>0,atomicvolume(sel)+" "+unitlist(19),"-"),Gr,EX2,(25+n)*linH,1,WHITE);
 
   // Heat of Vaporization [kJ/mol], Col:11 // Boiling Enthalpy
   textout_p(headerlist(11)+":",Gr,EX1,(26+n)*linH,1,LIGHTBLUE);
-  if (highlight_prop==11) then fillpoly_p(Gr,{EX2-1,(lin+0)*linH-2,EX2-1,(lin+1)*linH-3,EX3,(lin+1)*linH-3,EX3,(lin+0)*linH-2},BLACK,110); end;
+  if highlight_prop==11 then fillpoly_p(Gr,{EX2-1,lin*linH-2,EX2-1,(lin+1)*linH-3,EX3,(lin+1)*linH-3,EX3,lin*linH-2},BLACK,110); end;
   textout_p(ifte(boilingenthalpy(sel)>0,boilingenthalpy(sel)+" "+unitlist(11),"-"),Gr,EX2,(26+n)*linH,1,WHITE);
 
   // Heat of Fusion [kJ/mol], Col:12 // Melting Enthalpy
   textout_p(headerlist(12)+":",Gr,EX1,(27+n)*linH,1,LIGHTBLUE);
-  if (highlight_prop==12) then fillpoly_p(Gr,{EX2-1,(lin+0)*linH-2,EX2-1,(lin+1)*linH-3,EX3,(lin+1)*linH-3,EX3,(lin+0)*linH-2},BLACK,110); end;
+  if highlight_prop==12 then fillpoly_p(Gr,{EX2-1,lin*linH-2,EX2-1,(lin+1)*linH-3,EX3,(lin+1)*linH-3,EX3,lin*linH-2},BLACK,110); end;
   textout_p(ifte(meltingenthalpy(sel)>0,meltingenthalpy(sel)+" "+unitlist(12),"-"),Gr,EX2,(27+n)*linH,1,WHITE);
 
   // Heat Capacity [J/(kg.K)], Col:13
   textout_p(headerlist(13)+":",Gr,EX1,(28+n)*linH,1,LIGHTBLUE);
-  if (highlight_prop==13) then fillpoly_p(Gr,{EX2-1,(lin+0)*linH-2,EX2-1,(lin+1)*linH-3,EX3,(lin+1)*linH-3,EX3,(lin+0)*linH-2},BLACK,110); end;
+  if highlight_prop==13 then fillpoly_p(Gr,{EX2-1,lin*linH-2,EX2-1,(lin+1)*linH-3,EX3,(lin+1)*linH-3,EX3,lin*linH-2},BLACK,110); end;
   textout_p(ifte(heatcapacity(sel)>0,heatcapacity(sel)+" "+unitlist(13)),Gr,EX2,(28+n)*linH,1,WHITE);
 
   // Electrical Conductivity [10^6 A/(V*m)], Col:24
   textout_p(headerlist(24)+":",Gr,EX1,(29+n)*linH,1,LIGHTBLUE);
-  if (highlight_prop==24) then fillpoly_p(Gr,{EX2-1,(lin+0)*linH-2,EX2-1,(lin+1)*linH-3,EX3,(lin+1)*linH-3,EX3,(lin+0)*linH-2},BLACK,110); end;
+  if highlight_prop==24 then fillpoly_p(Gr,{EX2-1,lin*linH-2,EX2-1,(lin+1)*linH-3,EX3,(lin+1)*linH-3,EX3,lin*linH-2},BLACK,110); end;
   textout_p(ifte(electroconductivity(sel)>0,electroconductivity(sel)+" "+unitlist(24),"-"),Gr,EX2,(29+n)*linH,1,WHITE);
 
   // Thermal Conductivity [W/(m*K)], Col:23
   textout_p(headerlist(23)+":",Gr,EX1,(30+n)*linH,1,LIGHTBLUE);
-  if (highlight_prop==23) then fillpoly_p(Gr,{EX2-1,(lin+0)*linH-2,EX2-1,(lin+1)*linH-3,EX3,(lin+1)*linH-3,EX3,(lin+0)*linH-2},BLACK,110); end;
+  if highlight_prop==23 then fillpoly_p(Gr,{EX2-1,lin*linH-2,EX2-1,(lin+1)*linH-3,EX3,(lin+1)*linH-3,EX3,lin*linH-2},BLACK,110); end;
   textout_p(ifte(thermalconductivity(sel)>0,thermalconductivity(sel)+" "+unitlist(23),"-"),Gr,EX2,(30+n)*linH,1,WHITE);
 
   // Chemical properties
@@ -1018,28 +986,28 @@ show_element(Gr,sel,y) begin
 
   // Oxidation States [-], Col:6
   textout_p(headerlist(6)+":",Gr,EX1,(33+n)*linH,1,LIGHTBLUE);
-  if (highlight_prop==6) then fillpoly_p(Gr,{EX2-1,(lin+0)*linH-2,EX2-1,(lin+1)*linH-3,EX3,(lin+1)*linH-3,EX3,(lin+0)*linH-2},BLACK,110); end;
+  if highlight_prop==6 then fillpoly_p(Gr,{EX2-1,lin*linH-2,EX2-1,(lin+1)*linH-3,EX3,(lin+1)*linH-3,EX3,lin*linH-2},BLACK,110); end;
   textout_p(oxidstates(sel),Gr,EX2,(33+n)*linH,1,WHITE);
 
   // Oxide [-], Col:27
   textout_p(headerlist(27)+":",Gr,EX1,(34+n)*linH,1,LIGHTBLUE);
-  if (highlight_prop==27) then fillpoly_p(Gr,{EX2-1,(lin+0)*linH-2,EX2-1,(lin+1)*linH-3,EX3,(lin+1)*linH-3,EX3,(lin+0)*linH-2},BLACK,110); end;
+  if highlight_prop==27 then fillpoly_p(Gr,{EX2-1,lin*linH-2,EX2-1,(lin+1)*linH-3,EX3,(lin+1)*linH-3,EX3,lin*linH-2},BLACK,110); end;
   textout_p(distinct_oxide(oxide(sel)),Gr,EX2,(34+n)*linH,1,WHITE);
 
   // Elektronegativity [-], Col:26
   textout_p(headerlist(26)+":",Gr,EX1,(35+n)*linH,1,LIGHTBLUE);
-  if (highlight_prop==26) then fillpoly_p(Gr,{EX2-1,(lin+0)*linH-2,EX2-1,(lin+1)*linH-3,EX3,(lin+1)*linH-3,EX3,(lin+0)*linH-2},BLACK,110); end;
+  if highlight_prop==26 then fillpoly_p(Gr,{EX2-1,lin*linH-2,EX2-1,(lin+1)*linH-3,EX3,(lin+1)*linH-3,EX3,lin*linH-2},BLACK,110); end;
   textout_p(electronegativity(sel),Gr,EX2,(35+n)*linH,1,WHITE);
 
   // Arrows
-  if (PropWndBeg<VSIZE-320) then up_arrow(Gr,308,19*linH,WHITE); end;
-  if (PropWndEnd<VSIZE) then down_arrow(Gr,308,14*linH,WHITE) end;
+  if PropWndBeg<VSIZE-320 then up_arrow(Gr,308,19*linH,WHITE); end;
+  if PropWndEnd<VSIZE then down_arrow(Gr,308,14*linH,WHITE) end;
   left_arrow(Gr,0,119,WHITE); right_arrow(Gr,313,119,WHITE);
 end;
 //
 // Show sorted list of Elements
 //
-show_list(Gr, sort_alpha,posx,posy) begin
+show_list(Gr,sort_alpha,posx,posy) begin
   local j,k;
   local x:=2,y:=2;
   local fore_color;
@@ -1056,7 +1024,7 @@ show_list(Gr, sort_alpha,posx,posy) begin
   rect_p(Gr);
 
   // print the column headers
-  if (sort_alpha>0) then textout_p("No" ,Gr,x,y+j*linH,1,0);
+  if sort_alpha then textout_p("No",Gr,x,y+j*linH,1,0);
   else textout_p("No" ,Gr,x,y+j*linH,1,0); textout_p(" ҉" ,Gr,x+10,y+j*linH,1,rgb(255,0,0));
   end;
 
@@ -1069,8 +1037,8 @@ show_list(Gr, sort_alpha,posx,posy) begin
   line_p(Gr,xxx-2,y,xxx-2,linH-2,0);
   line_p(Gr,xxx-2,1*linH+2,xxx-2,LSIZE,LIGHTGRAY);
 
-  if (sort_alpha>0) then textout_p(headerlist(2),Gr,xxx,y+j*linH,1,0); textout_p("҉ ",Gr,xxx+40,y+j*linH,1,rgb(255,0,0));
-  else textout_p(headerlist(2),Gr,xxx,y+j*linH,1,0);     end;
+  if sort_alpha then textout_p(headerlist(2),Gr,xxx,y+j*linH,1,0); textout_p("҉ ",Gr,xxx+40,y+j*linH,1,rgb(255,0,0));
+  else textout_p(headerlist(2),Gr,xxx,y+j*linH,1,0); end;
 
   // vertical line
   line_p(Gr,xxxx-2,y,xxxx-2,linH-2,0);
@@ -1125,27 +1093,27 @@ GetTextExtent(txt,fsize) begin
   // then 6 dummies and again 97 to 122
   // "A":=6.013773584906   "a":=5.02345327
   // "B":=6.013773584906   "b":=6.03773584906
-  // "C":=6.013773584906   "c":=5.000000000000
-  // "D":=7.03381642512     "d":=6.03503584906
-  // "E":=4.9982                  "e":=5.05291052913
-  // "F":=4.9982                  "f":=3.01886792453
-  // "G":=7.03381642512     "g":=5.05291052913
-  // "H":=7.03381642512     "h":=6.03503584906
-  // "I":=3.01886792453      "i":=3.01886792453
-  // "J":=5.000000000000    "j":=3.01886792453
+  // "C":=6.013773584906   "c":=5.00000000000
+  // "D":=7.03381642512    "d":=6.03503584906
+  // "E":=4.9982           "e":=5.05291052913
+  // "F":=4.9982           "f":=3.01886792453
+  // "G":=7.03381642512    "g":=5.05291052913
+  // "H":=7.03381642512    "h":=6.03503584906
+  // "I":=3.01886792453    "i":=3.01886792453
+  // "J":=5.000000000000   "j":=3.01886792453
   // "K":=6.013773584906   "k":=5.05291052913
   // "L":=5.000000000000   "l":=3.01886792453
-  // "M":=9.015873015875  "m":=9.015873015875
+  // "M":=9.015873015875   "m":=9.015873015875
   // "N":=7.03381642512    "n":=6.03773584906
   // "O":=7.03381642512    "o":=6.03773584906
   // "P":=6.03773584906    "p":=6.03773584906
   // "Q":=7.03381642512    "q":=6.03773584906
   // "R":=6.03773584906    "r":=4.02531955695
-  // "S":=4.9982                 "s":=4.9982
+  // "S":=4.9982           "s":=4.9982
   // "T":=5.05291052913    "t":=3.01886792453
   // "U":=7.03381642512    "u":=6.03773584906
   // "V":=6.03773584906    "v":=4.9982
-  // "W":=9.015873015875 "w":=7.03381642512
+  // "W":=9.015873015875   "w":=7.03381642512
   // "X":=5.05291052913    "x":=5.05291052913
   // "Y":=5.05291052913    "y":=5.05291052913
   // "Z":=5.05291052913    "z":=4.02531955695
@@ -1157,7 +1125,7 @@ local CharSet:={6.013773584906,6.013773584906,6.013773584906,7.03381642512,4.998
 
   for i from 1 to dim(txt) do
     ntxt:=asc(mid(txt,i,1));
-    nval:=5.0*fsize;
+    nval:=5*fsize;
     if 64<ntxt<=122 then nval=CharSet(OFFSET+i)*fsize; end;
     sum:=sum+nval;
   end; return sum;
@@ -1188,7 +1156,7 @@ chaos(Gr) begin
   repeat aa:=0.05;
    repeat xx:=aa;
     for I from 1 to 3 do xx:=mm*xx*(1-xx); end;
-    pixon_p(Gr,(mm-3)*320,xx*240,#0000FF);
+    pixon_p(Gr,(mm-3)*320,xx*240,#FF);
     aa:=aa+0.05;
    until aa>0.5; mm:=mm+0.01;
   until mm>4;
@@ -1252,28 +1220,28 @@ show_plot(Gr,prop,sel,conn_dots) begin
 
   // which property we need to plot?
   case
-    if (prop==4) then this_prop:=molmasse; end;
-    if (prop==5) then this_prop:=density; end;
-    if (prop==9) then this_prop:=meltingpoint; end;
-    if (prop==10) then this_prop:=boilingpoint; end;
-    if (prop==11) then this_prop:=boilingenthalpy; end;
-    if (prop==12) then this_prop:=meltingenthalpy; end;
-    if (prop==13) then this_prop:=heatcapacity; end;
-    if (prop==19) then this_prop:=atomicvolume; end;
-    if (prop==20) then this_prop:=atomradius; end;
-    if (prop==21) then this_prop:=covalentradii; end;
-    if (prop==22) then this_prop:=vanderwaals; end;
-    if (prop==23) then this_prop:=thermalconductivity; end;
-    if (prop==24) then this_prop:=electroconductivity; end;
-    if (prop==25) then this_prop:=firstionenergy; end;
-    if (prop==26) then this_prop:=electronegativity; end;
-    if (prop==28) then this_prop:=discovery; end;
-    if (prop==31) then this_prop:=earthmass; end;
+    if prop==4 then this_prop:=molmasse; end;
+    if prop==5 then this_prop:=density; end;
+    if prop==9 then this_prop:=meltingpoint; end;
+    if prop==10 then this_prop:=boilingpoint; end;
+    if prop==11 then this_prop:=boilingenthalpy; end;
+    if prop==12 then this_prop:=meltingenthalpy; end;
+    if prop==13 then this_prop:=heatcapacity; end;
+    if prop==19 then this_prop:=atomicvolume; end;
+    if prop==20 then this_prop:=atomradius; end;
+    if prop==21 then this_prop:=covalentradii; end;
+    if prop==22 then this_prop:=vanderwaals; end;
+    if prop==23 then this_prop:=thermalconductivity; end;
+    if prop==24 then this_prop:=electroconductivity; end;
+    if prop==25 then this_prop:=firstionenergy; end;
+    if prop==26 then this_prop:=electronegativity; end;
+    if prop==28 then this_prop:=discovery; end;
+    if prop==31 then this_prop:=earthmass; end;
     default return 0;
   end;
 
   ymin:=min(this_prop);ymax:=max(this_prop);
-  textout_p(this_prop(sel)+unitlist(prop),Gr,120+wtxt,2,1,#0000FF);
+  textout_p(this_prop(sel)+unitlist(prop),Gr,120+wtxt,2,1,#FF);
 
   ftor:=200/(ymax-ymin); // this factor is how many specific units per pixel
   neg_off:=ftor*ymin; // negativ or positiv offset of zero [in pixels] (avoid divide by zero later on)
@@ -1282,7 +1250,7 @@ show_plot(Gr,prop,sel,conn_dots) begin
     textout_p("0",Gr,60,210+neg_off-3,1,LIGHTGRAY); // show where zero is
   end;
   // need to paint the connected line?
-  check_mark(Gr,180,230,0,conn_dots);
+  check_mark(Gr,180,230,WHITE,conn_dots);
 
   for i from 1 to MAX_ELEMENTS step 1 do
     // paint always two pixels per element on the coordinate plot
@@ -1292,8 +1260,8 @@ show_plot(Gr,prop,sel,conn_dots) begin
     // starting the Y-Value from below at relative zero (210pix)
     // in the direction of going up
     // value the Y-Min if there is an offset (not startig at zero)
-    pixon_p(Gr,70+i+i,210-(ftor*this_prop(i)-neg_off),#0000FF);
-    pixon_p(Gr,71+i+i,210-(ftor*this_prop(i)-neg_off),#0000FF);
+    pixon_p(Gr,70+i+i,210-(ftor*this_prop(i)-neg_off),#FF);
+    pixon_p(Gr,71+i+i,210-(ftor*this_prop(i)-neg_off),#FF);
     lastx:=70+i+i;
     lasty:=210-(ftor*this_prop(i)-neg_off);
   end;
@@ -1313,10 +1281,10 @@ show_plot(Gr,prop,sel,conn_dots) begin
   // and not just shifted, the screen will not magically enlarge
   //ftor:=(ymax-ymin)/200;
   ftor:=ymax/200;
-  for i from 0 to 200 step 50 do
+  ralign_text(string(round(ymin,1),Gr,52,200);
+  for i from 50 to 200 step 50 do
     // after 50 and 100 (remember 2*118 pixels, to use available screen space)
-    if (i==0) then ralign_text(string(round(ymin,1)),Gr,52,200);
-    else ralign_text(string(round(ftor*i,1)),Gr,50,206-i); end;
+    ralign_text(string(round(ftor*i,1)),Gr,50,206-i);
   end;
 
   // Name [-], Col:1
@@ -1375,14 +1343,14 @@ prop_plot() begin
   return ifte(prop_sel==26,prop_sel+5,prop_sel+3);
 end;
 //
-// which elemt are we at?
+// which element are we at?
 //
 selected_plot(x,y) begin
   // first of all, we must be inside our defined Y-Axis of 200 pixels
-  if (10<=y<=210) then
+  if 10<=y<=210 then
     // then wee need to inside 2*MAX_ELEMENTS
     // we know that we start a X-Axis 70 pixel
-    if (70<x<70+2*MAX_ELEMENTS) then return ip((x-70)/2); end;
+    if 70<x<70+2*MAX_ELEMENTS then return ip((x-70)/2); end;
   end;
 end;
 //
@@ -1409,71 +1377,50 @@ DoLoop(Gr) begin
     // read from touch input queue
     MyMouse:=B→R(mouse());
     // if it is indeed a real number then a keystroke has been recorded
-    if (type(MyWait)==0) then
+    if type(MyWait)==0 then
       // store the keycode for later use
       WaitReal:=MyWait;
-      if (MyWait>=0) and (MyWait<51) then Event_KeyPress(Gr,MyWait) end;
+      if MyWait>=0 and MyWait<51 then Event_KeyPress(Gr,MyWait) end;
     end; // if
     // a list? (if it is a list then a mouse event occured)
-    if (type(MyWait)==6) then
+    if type(MyWait)==6 then
       // if it is a list, then a mouse (touch) has been recognized
       case
-        if (MyWait(1)==0) and (size(MyMouse(1))==5) and (size(MyMouse(2))==0) and (MyMouse(1,5)==0) then Event_MouseDown(Gr,MyMouse(1,1),MyMouse(1,2)); end;
-        if (MyWait(1)==1) and (size(MyMouse(1))==5)  and (size(MyMouse(2))==0) then
-          if (MyMouse(1,5)==2) and (LastWait(1)=0) then Event_DragStart(Gr,LastMouse(1,1),LastMouse(1,2));
-          else if (MyMouse(1,5)==2) and (LastWait(1)=1) then Event_DragMove(Gr,MyMouse(1,1),MyMouse(1,2),LastMouse(1,1),LastMouse(1,2)); end; end;
+        if MyWait(1)==1 and size(MyMouse(1))==5  and size(MyMouse(2))==0 then
+          if MyMouse(1,5)==2 and LastWait(1)=1 then Event_DragMove(Gr,MyMouse(1,1),MyMouse(1,2),LastMouse(1,1),LastMouse(1,2)); end;
         end;
-        if (MyWait(1)==2) and (size(MyMouse(1))==0) and (size(MyMouse(2))==0) and (size(MyWait)==1) then
-              // {2} {{}{}}
-              case
-                if (LastWait(1)==0) then Event_MouseClick(Gr,LastWait(2),LastWait(3)); end;
-                if (LastWait(1)==1) and (size(LastWait)==3) then
-                  // {1,x,y}
-                  if (size(LastMouse(1))==5) then
-                    // CAUTION: you could put an AND instead of two ifs here
-                    // but thats just logically so, if size() is turned out to be empty
-                    // the next call would fail,
-                    if (LastMouse(1,5)==2) then
-                      // {{x1,y1,x0,y0,2}{}}
-                      Event_DragEnd(Gr,LastMouse(1,1),LastMouse(1,2));
-                    end;
-                  end; // if
-                end; // if
-                if (LastWait(1)==7) and (size(LastWait)==3) then
-                  // {7,x,y} {{}{}}
-                end; // if
-              end; // case
-        end; // if
-        if (MyWait(1)==3) then
-          if (MyWait(3)>= 213 and MyWait(3)<=239) then
+        if MyWait(1)==2 and size(MyMouse(1))==0 and size(MyMouse(2))==0 and size(MyWait)==1 then
+          if LastWait(1)==0 then Event_MouseClick(Gr,LastWait(2),LastWait(3)); end;
+        end;
+        if MyWait(1)==3 then
+          if 213<=MyWait(3)<=239 then
             // SOFTBUTTONS
             // this is to check if we are down below on the softmenu area
             case
               // 1#6 menu points
-              if (0 <= MyWait(2) <= 51) then Event_MenuClick(Gr,1);
+              if 0<=MyWait(2)<=51 then Event_MenuClick(Gr,1);
               end;
               // 2#6 menu points
-              if (53 <= MyWait(2) <= 104) then Event_MenuClick(Gr,2); end;
+              if 53<=MyWait(2)<=104 then Event_MenuClick(Gr,2); end;
               // 3#6 menu points
-              if (106 <= MyWait(2) <=157) then Event_MenuClick(Gr,3); end;
+              if 106<= MyWait(2)<=157 then Event_MenuClick(Gr,3); end;
               // 4#6 menu points
-              if (159 <= MyWait(2) <=210) then Event_MenuClick(Gr,4); end;
+              if 159<= MyWait(2)<=210 then Event_MenuClick(Gr,4); end;
               // 5#6 menu points
-              if (212 <= MyWait(2) <=263) then Event_MenuClick(Gr,5); end;
+              if 212<= MyWait(2)<=263 then Event_MenuClick(Gr,5); end;
               // 6#6 menu points
-              if (265 <= MyWait(2) <=319) then Event_MenuClick(Gr,6); end;
-            end; // case
+              if 265<= MyWait(2)<=319 then Event_MenuClick(Gr,6); end;
+            end;
           else
-            if (size(MyMouse(1))==0) and (size(MyMouse(2))==0) and (LastWait(1)==2) and (size(LastWait)==1) then
+            if size(MyMouse(1))==0 and size(MyMouse(2))==0 and LastWait(1)==2 and size(LastWait)==1 then
               // {2} {{}{}}
               // textout_p("New mouse event: Mouse Up After Click",Gr,1,next_line,1);
-            end; // if
-          end; // if
-        end; // if
-        if (MyWait(1)==5) and (size(MyMouse(1))==5) and (size(MyMouse(2))==5) and (MyMouse(1,5)==3) and (MyMouse(2,5)==7) then //textout_p("New mouse event: Stretch",Gr,1,next_line,1);
+            end;
+          end;
         end;
-        if (MyWait(1)==7) and (size(MyMouse(1))==5) and (size(MyMouse(2))==0) and (MyWait(1)==7) and (MyMouse(1,5)==0) then Event_MouseLongClick(Gr,LastMouse(1,1),LastMouse(1,2)); end;
-      end; // case
-    end; // if
+        if MyWait(1)==5 and size(MyMouse(1))==5 and size(MyMouse(2))==5 and MyMouse(1,5)==3 and MyMouse(2,5)==7 then //textout_p("New mouse event: Stretch",Gr,1,next_line,1);
+        end;
+      end;
+    end;
   until WaitReal==K_ESC;
 end;
