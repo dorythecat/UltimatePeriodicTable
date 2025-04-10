@@ -1,4 +1,4 @@
-The Ultimate Periodic Table v0.1.2, for the HP Prime calculator, by Pelayo 'Dory' Méndez (https://www.hpcalc.org/details/9407)
+The Ultimate Periodic Table v0.1.2, for the HP Prime calculator, by Pelayo 'Dory' Méndez (https://www.hpcalc.org/details/9407) (https://github.com/dorythecat/UltimatePeriodicTable)
 
 Based on Touch Periodic Table (https://www.hpcalc.org/details/7457), by Miguel Toro, Eric Keppel, Mickaël Nicotera, and others.
 
